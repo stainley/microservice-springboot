@@ -39,12 +39,13 @@ pipeline {
                             image 'gradle:jre8'
                             //args '-v /root/.m2/repository:/root/.m2/repository'
                             // Synology Jenkins
-                            //args '-v /volume1/@docker/volumes/jenkins/_data/.m2/repository:/root/.m2/repository'
+                            args '-v /volume1/@docker/volumes/jenkins/_data/.m2/repository:/root/.m2/repository'
                             // to use the same node and workdir defined on top-level pipeline for all docker agents
                             reuseNode true
                         }
                     }
                     steps {
+                        sh './gradlew --version'
                         sh './gradlew clean compileJava'
                     }
                 }
@@ -61,7 +62,8 @@ pipeline {
 
                     steps {
                         //sh 'mvn checkstyle:checkstyle'
-                        sh 'gradle checkstyleMain'
+                        //sh 'gradlew checkstyleMain'
+                        sh 'gradlew testClasses'
                         step([$class: 'CheckStylePublisher',
                         //canRunOnFailed: true,
                         defaultEncoding: '',
