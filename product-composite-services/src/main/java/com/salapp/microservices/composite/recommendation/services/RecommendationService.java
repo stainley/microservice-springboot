@@ -5,4 +5,5 @@ package com.salapp.microservices.composite.recommendation.services;
  * @since 3/9/20.
  */
 public interface RecommendationService {
+
 }

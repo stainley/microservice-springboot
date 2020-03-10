@@ -9,9 +9,12 @@ import com.salapp.microservices.com.salapp.microservices.composite.review.servic
 import com.salapp.microservices.composite.recommendation.services.RecommendationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.context.annotation.Bean;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
@@ -29,7 +32,6 @@ public class ProductCompositeIntegration implements ProductService, Recommendati
     private final String productServiceUrl;
     private final String recommendationServiceUrl;
     private final String reviewServiceUrl;
-
 
     @Autowired
     public ProductCompositeIntegration(RestTemplate restTemplate,
