@@ -45,8 +45,7 @@ pipeline {
                         }
                     }
                     steps {
-                        sh './gradlew --version'
-                        sh './gradlew clean compileJava'
+                        sh './gradlew compileJava'
                     }
                 }
 
@@ -63,7 +62,7 @@ pipeline {
                     steps {
                         //sh 'mvn checkstyle:checkstyle'
                         //sh 'gradlew checkstyleMain'
-                        sh 'gradlew testClasses'
+                        sh './gradlew test'
                         step([$class: 'CheckStylePublisher',
                         //canRunOnFailed: true,
                         defaultEncoding: '',
@@ -187,7 +186,8 @@ pipeline {
                 steps {
                     //sh " mvn sonar:sonar -Dsonar.host.url=$SONARQUBE_URL:$SONARQUBE_PORT"
                     withSonarQubeEnv('sonarqube') {
-                        sh 'mvn clean verify -Psonar-test sonar:sonar'
+                         sh "./gradlew jacocoTestReport"
+                        //sh 'mvn clean verify -Psonar-test sonar:sonar'
                         //sh 'mvn clean verify sonar:sonar'
                     }
                     timeout(time: 15, unit: 'MINUTES') {
