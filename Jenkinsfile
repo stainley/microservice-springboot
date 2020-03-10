@@ -36,7 +36,7 @@ pipeline {
                 stage('Compile') {
                     agent {
                         docker {
-                            image 'gradle:jre8'
+                            image 'gradle:jdk8'
                             //args '-v /root/.m2/repository:/root/.m2/repository'
                             // Synology Jenkins
                             args '-v /volume1/@docker/volumes/jenkins/_data/.m2/repository:/root/.m2/repository'
@@ -52,7 +52,7 @@ pipeline {
                 stage('CheckStyle') {
                     agent {
                         docker {
-                            image 'gradle:jre8'
+                            image 'gradle:jdk8'
                             //args '-v /root/.m2/repository:/root/.m2/repository'
                             //args '-v /volume1/@docker/volumes/jenkins/_data/.m2/repository:/root/.m2/repository'
                             reuseNode true
