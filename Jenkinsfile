@@ -60,7 +60,7 @@ pipeline {
                 anyOf { branch 'master'; branch 'develop' }
             }
             steps {
-                gradlew('test')
+                sh './gradlew test'
             }
             post {
                 always {
