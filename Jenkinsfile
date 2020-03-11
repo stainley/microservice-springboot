@@ -110,7 +110,7 @@ pipeline {
                 steps {
                     //sh ' mvn javadoc:javadoc'
                     sh './gradlew alljavadoc'
-                    step([$class: 'JavadocArchiver', javadocDir: '**/build/docs/javadoc', keepAll: 'true'])
+                    step([$class: 'JavadocArchiver', javadocDir: '**/build/docs/javadoc/', keepAll: 'true'])
                 }
             }
             stage('SonarQube') {
