@@ -92,14 +92,7 @@ pipeline {
     stage('Code Quality Analysis') {
         parallel {
             stage('PMD') {
-                agent {
-                    docker {
-                        image 'maven:3.6.0-jdk-8-alpine'
-                        //args '-v /root/.m2/repository:/root/.m2/repository'
-                        args '-v /volume1/@docker/volumes/jenkins/_data/.m2/repository:/root/.m2/repository'
-                        reuseNode true
-                    }
-                }
+
                 steps {
                     sh ' mvn pmd:pmd'
                     // using pmd plugin
@@ -107,14 +100,6 @@ pipeline {
                 }
             }
             stage('Findbugs') {
-                agent {
-                    docker {
-                        image 'maven:3.6.0-jdk-8-alpine'
-                        //args '-v /root/.m2/repository:/root/.m2/repository'
-                        args '-v /volume1/@docker/volumes/jenkins/_data/.m2/repository:/root/.m2/repository'
-                        reuseNode true
-                    }
-                }
                 steps {
                     sh ' mvn findbugs:findbugs'
                     // using findbugs plugin
@@ -122,14 +107,6 @@ pipeline {
                 }
             }
             stage('JavaDoc') {
-                agent {
-                    docker {
-                        image 'maven:3.6.0-jdk-8-alpine'
-                        //args '-v /root/.m2/repository:/root/.m2/repository'
-                        args '-v /volume1/@docker/volumes/jenkins/_data/.m2/repository:/root/.m2/repository'
-                        reuseNode true
-                    }
-                }
                 steps {
                     sh ' mvn javadoc:javadoc'
                     step([$class: 'JavadocArchiver', javadocDir: './target/site/apidocs', keepAll: 'true'])
@@ -143,9 +120,9 @@ pipeline {
                 steps {
                     //sh " mvn sonar:sonar -Dsonar.host.url=$SONARQUBE_URL:$SONARQUBE_PORT"
                     withSonarQubeEnv('sonarqube') {
-                         //sh "./gradlew -Psonar.host.url=http://192.168.1.50:9000 jacocoTestReport sonarqube"
+                         //sh "./gradlew -Dsonar.host.url=http://192.168.1.50:9000 jacocoTestReport sonarqube"
                         withGradle {
-                            gradlew('sonarqube', 'jacocoTestReport')
+                            sh './gradlew jacocoTestReport')
                         }
                     }
                     timeout(time: 15, unit: 'MINUTES') {
