@@ -144,8 +144,9 @@ pipeline {
                     //sh " mvn sonar:sonar -Dsonar.host.url=$SONARQUBE_URL:$SONARQUBE_PORT"
                     withSonarQubeEnv('sonarqube') {
                          //sh "./gradlew -Psonar.host.url=http://192.168.1.50:9000 jacocoTestReport sonarqube"
-                        withGradle('sonarqube', 'jacocoTestReport')
-
+                        withGradle('gradlew') {
+                            gradlew('sonarqube', 'jacocoTestReport')
+                        }
                     }
                     timeout(time: 15, unit: 'MINUTES') {
                         waitForQualityGate abortPipeline: true
