@@ -139,20 +139,13 @@ pipeline {
                 environment {
                     scannerHome = tool 'SonarQube Scanner'
                 }
-                agent {
-                    docker {
-                        image 'maven:3.6.0-jdk-8-alpine'
-                        //args "-v /root/.m2/repository:/root/.m2/repository"
-                        args '-v /volume1/@docker/volumes/jenkins/_data/.m2/repository:/root/.m2/repository' // Only for Docker on Synolgy
-                        reuseNode true
-                    }
-                }
+
                 steps {
                     //sh " mvn sonar:sonar -Dsonar.host.url=$SONARQUBE_URL:$SONARQUBE_PORT"
                     withSonarQubeEnv('sonarqube') {
-                         sh "./gradlew jacocoTestReport"
-                        //sh 'mvn clean verify -Psonar-test sonar:sonar'
-                        //sh 'mvn clean verify sonar:sonar'
+                         //sh "./gradlew -Psonar.host.url=http://192.168.1.50:9000 jacocoTestReport sonarqube"
+                        gradlew('sonarqube', 'jacocoTestReport')
+
                     }
                     timeout(time: 15, unit: 'MINUTES') {
                         waitForQualityGate abortPipeline: true
