@@ -73,11 +73,11 @@ pipeline {
                 anyOf { branch 'master'; branch 'develop' }
             }
             steps {
-                sh 'mvn verify -Dsurefire.skip=true'
+                sh './gradlew integrationTest'
             }
             post {
                 always {
-                    junit 'target/failsafe-reports/**/*.xml'
+                    junit '**/build/test-results/test/*IT.xml'
                 }
             success {
                 stash(name: 'artifact', includes: 'target/*.jar')
