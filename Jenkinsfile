@@ -73,7 +73,7 @@ pipeline {
                 anyOf { branch 'master'; branch 'develop' }
             }
             steps {
-                sh './gradlew integrationTest'
+                sh './gradlew integrationTest build'
             }
             post {
                 always {
