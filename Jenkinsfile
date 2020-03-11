@@ -109,7 +109,7 @@ pipeline {
             stage('JavaDoc') {
                 steps {
                     //sh ' mvn javadoc:javadoc'
-                    sh './gradlew alljavadoc
+                    sh './gradlew alljavadoc'
                     step([$class: 'JavadocArchiver', javadocDir: '**/build/docs/javadoc', keepAll: 'true'])
                 }
             }
