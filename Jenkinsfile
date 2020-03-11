@@ -54,15 +54,14 @@ pipeline {
                         docker {
                             image 'gradle:jdk8'
                             //args '-v /root/.m2/repository:/root/.m2/repository'
-                            //args '-v /volume1/@docker/volumes/jenkins/_data/.m2/repository:/root/.m2/repository'
+                            args '-v /volume1/@docker/volumes/jenkins/_data/.m2/repository:/root/.m2/repository'
                             reuseNode true
                         }
                     }
 
                     steps {
                         //sh 'mvn checkstyle:checkstyle'
-                        //sh 'gradlew checkstyleMain'
-                        sh './gradlew test'
+                        sh './gradlew checkstyleMain'
                         step([$class: 'CheckStylePublisher',
                         //canRunOnFailed: true,
                         defaultEncoding: '',
