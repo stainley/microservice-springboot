@@ -95,16 +95,17 @@ task integrationTest(type: Test) {
 
 check.dependsOn integrationTest
 
-/*
-task Javadocs(type: Javadoc) {
+/*task Javadocs(type: Javadoc) {
     source = sourceSets.main.allJava
-}
-*/
+}*/
 
 javadoc {
     source = sourceSets.main.allJava
-    classpath = configurations.compile
+    //classpath = configurations.compile
 }
+
+/*
+
 
 sourceSets {
     build {
@@ -112,10 +113,11 @@ sourceSets {
 
     }
 }
+*/
+
 def exportedProjects = [
-        ":api",
-        ":product-composite-services",
-        ]
+        ':api', ':product-services'
+]
 
 
 task alljavadoc(type: Javadoc) {
