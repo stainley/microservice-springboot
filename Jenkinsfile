@@ -144,7 +144,7 @@ pipeline {
                     //sh " mvn sonar:sonar -Dsonar.host.url=$SONARQUBE_URL:$SONARQUBE_PORT"
                     withSonarQubeEnv('sonarqube') {
                          //sh "./gradlew -Psonar.host.url=http://192.168.1.50:9000 jacocoTestReport sonarqube"
-                        withGradle('gradlew') {
+                        withGradle {
                             gradlew('sonarqube', 'jacocoTestReport')
                         }
                     }
