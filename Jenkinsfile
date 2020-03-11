@@ -80,10 +80,10 @@ pipeline {
                     junit '**/build/test-results/test/*IT.xml'
                 }
             success {
-                stash(name: 'artifact', includes: 'target/*.jar')
+                stash(name: 'artifact', includes: '**/build/libs/*.jar')
                 stash(name: 'pom', includes: 'pom.xml')
                 // to add artifacts in jenkins pipeline tab (UI)
-                archiveArtifacts 'target/*.jar'
+                archiveArtifacts '**/build/libs/*.jar'
             }
         }
     }
