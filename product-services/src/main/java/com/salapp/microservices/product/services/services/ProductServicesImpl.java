@@ -23,7 +23,6 @@ public class ProductServicesImpl implements ProductService {
     @Override
     public Product getProduct(String productId) {
 
-        //return ResponseEntity.accepted().contentType(MediaType.APPLICATION_JSON).body(new Product(productId, "name-" + productId, 123, serviceUtil.getServiceAddress()));
         return new Product(productId, "name-" + productId, 123, serviceUtil.getServiceAddress());
     }
 }

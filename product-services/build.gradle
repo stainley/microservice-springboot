@@ -70,11 +70,11 @@ checkstyle {
     configFile file("${project.rootDir}/config/checkstyle/checkstyle.xml")
 }
 checkstyleMain {
-    source ='src/main/java'
+    source = 'src/main/java'
 }
 
 checkstyleTest {
-    source ='src/test/java'
+    source = 'src/test/java'
 }
 
 sourceSets {
@@ -94,3 +94,34 @@ task integrationTest(type: Test) {
 }
 
 check.dependsOn integrationTest
+
+/*
+task Javadocs(type: Javadoc) {
+    source = sourceSets.main.allJava
+}
+*/
+
+javadoc {
+    source = sourceSets.main.allJava
+    classpath = configurations.compile
+}
+
+sourceSets {
+    build {
+        java.srcDir file('src/main/java')
+
+    }
+}
+def exportedProjects = [
+        ":api",
+        ":product-composite-services",
+        ]
+
+
+task alljavadoc(type: Javadoc) {
+    source exportedProjects.collect {
+        project(it).sourceSets.main.allJava
+    }
+    classpath = files(exportedProjects.collect { project(it).sourceSets.main.compileClasspath })
+    destinationDir = file("${buildDir}/docs/javadoc")
+}

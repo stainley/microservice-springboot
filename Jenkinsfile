@@ -108,8 +108,9 @@ pipeline {
             }
             stage('JavaDoc') {
                 steps {
-                    sh ' mvn javadoc:javadoc'
-                    step([$class: 'JavadocArchiver', javadocDir: './target/site/apidocs', keepAll: 'true'])
+                    //sh ' mvn javadoc:javadoc'
+                    sh './gradlew alljavadoc --profile'
+                    step([$class: 'JavadocArchiver', javadocDir: '**/build/docs/javadoc', keepAll: 'true'])
                 }
             }
             stage('SonarQube') {
@@ -118,13 +119,8 @@ pipeline {
                 }
 
                 steps {
-                    //sh " mvn sonar:sonar -Dsonar.host.url=$SONARQUBE_URL:$SONARQUBE_PORT"
                     withSonarQubeEnv('sonarqube') {
-                         //sh "./gradlew -Dsonar.host.url=http://192.168.1.50:9000 jacocoTestReport sonarqube"
                          sh './gradlew jacocoTestReport sonarqube'
-                        /* withGradle {
-                            sh './gradlew jacocoTestReport'
-                        } */
                     }
                     timeout(time: 15, unit: 'MINUTES') {
                         waitForQualityGate abortPipeline: true
