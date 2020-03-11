@@ -42,7 +42,7 @@ pipeline {
                 stage('CheckStyle') {
                     steps {
                         //sh 'mvn checkstyle:checkstyle'
-                        sh './gradlew checkstyleMain'
+                        sh './gradlew clean checkstyleMain'
                         step([$class: 'CheckStylePublisher',
                         //canRunOnFailed: true,
                         defaultEncoding: '',
@@ -64,7 +64,7 @@ pipeline {
             }
             post {
                 always {
-                    junit '**/build/test-results/test/TEST-*.xml'
+                    junit '**/build/test-results/test/*Tests-*.xml'
                 }
             }
         }
@@ -81,7 +81,7 @@ pipeline {
                 }
             success {
                 stash(name: 'artifact', includes: '**/build/libs/*.jar')
-                stash(name: 'pom', includes: 'pom.xml')
+                //stash(name: 'pom', includes: 'pom.xml')
                 // to add artifacts in jenkins pipeline tab (UI)
                 archiveArtifacts '**/build/libs/*.jar'
             }
