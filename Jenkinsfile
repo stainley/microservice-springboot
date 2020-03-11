@@ -60,11 +60,11 @@ pipeline {
                 anyOf { branch 'master'; branch 'develop' }
             }
             steps {
-                sh './gradlew testClasses'
+                gradlew('test')
             }
             post {
                 always {
-                    junit 'target/surefire-reports/**/*.xml'
+                    junit '**/build/test-results/test/TEST-*.xml'
                 }
             }
         }
