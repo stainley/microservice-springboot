@@ -34,31 +34,12 @@ pipeline {
         stage('Build') {
             parallel {
                 stage('Compile') {
-                    agent {
-                        docker {
-                            image 'gradle:jdk8'
-                            //args '-v /root/.m2/repository:/root/.m2/repository'
-                            // Synology Jenkins
-                            args '-v /volume1/@docker/volumes/jenkins/_data/.m2/repository:/root/.m2/repository'
-                            // to use the same node and workdir defined on top-level pipeline for all docker agents
-                            reuseNode true
-                        }
-                    }
                     steps {
                         sh './gradlew compileJava'
                     }
                 }
 
                 stage('CheckStyle') {
-                    agent {
-                        docker {
-                            image 'gradle:jdk8'
-                            //args '-v /root/.m2/repository:/root/.m2/repository'
-                            args '-v /volume1/@docker/volumes/jenkins/_data/.m2/repository:/root/.m2/repository'
-                            reuseNode true
-                        }
-                    }
-
                     steps {
                         //sh 'mvn checkstyle:checkstyle'
                         sh './gradlew checkstyleMain'
@@ -78,16 +59,8 @@ pipeline {
             when {
                 anyOf { branch 'master'; branch 'develop' }
             }
-            agent {
-                docker {
-                    image 'maven:3.6.0-jdk-8-alpine'
-                    //args '-v /root/.m2/repository:/root/.m2/repository'
-                    args '-v /volume1/@docker/volumes/jenkins/_data/.m2/repository:/root/.m2/repository'
-                    reuseNode true
-                }
-            }
             steps {
-                sh 'mvn test'
+                sh './gradle test'
             }
             post {
                 always {
